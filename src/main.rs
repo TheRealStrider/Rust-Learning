@@ -1,6 +1,8 @@
 mod length_converter;
 mod password_generator;
+use rand::Rng;
+
 
 fn main() {
-    x = input()
+    println!("{}", random!(0, 90))
 }

@@ -1,6 +1,14 @@
 use std::{io, io::Write};
 use rand::Rng;
 
+#[macro_export]
+macro_rules! random {
+    ($x: expr, $y: expr) => {
+        rand::thread_rng().gen_range($x..$y)
+    };
+}
+
+
 pub fn _password_generator() {
     print!("Type in the length you want the password to be (EX: 5): ");
     io::stdout().flush().expect("Nothing");
@@ -8,7 +16,7 @@ pub fn _password_generator() {
     // Length the password needs to be
     let mut password_length: String = String::new();
     io::stdin().read_line(&mut password_length).expect("Failed");
-    let password_length: u32 = password_length.trim().parse::<u32>().unwrap();
+    let password_length: usize = password_length.trim().parse::<usize>().unwrap();
 
     // Whether to include special characters
     print!("Do you want to include special characters? (EX: !@#): ");
@@ -25,12 +33,12 @@ pub fn _password_generator() {
     let mut password: String = String::new();
 
 
-    for _i in 0..password_length {
-        let choose_type: u32 = rand::thread_rng().gen_range(0..4);
-        let x: char = alphabet_lower[rand::thread_rng().gen_range(0..26)];
-        let y: char = alphabet_upper[rand::thread_rng().gen_range(0..26)];
-        let z: char = numbers[rand::thread_rng().gen_range(0..10)];
-        let s: char = special_characters[rand::thread_rng().gen_range(0..7)];
+    while password.len() < password_length{
+        let choose_type: u32 = random!(0, 4);
+        let x: char = alphabet_lower[random!(0, 26)];
+        let y: char = alphabet_upper[random!(0, 26)];
+        let z: char = numbers[random!(0, 10)];
+        let s: char = special_characters[random!(0, 7)];
 
         if include_special == "yes" {
             match choose_type {

@@ -43,6 +43,7 @@ pub fn _length_converter() {
             ("cm", 0.01), ("mm", 0.001)]);
         let imperial_units: HashMap<&str, f64> = HashMap::from([("mi", 63_360.0), ("yd", 36.0),
             ("ft", 12.0), ("in", 1.0)]);
+        
 
         // Checker for the type of unit inputted
         fn unit_type<'a>(input: &String, metric: &HashMap<&str, f64>, imperial: &HashMap<&str, f64>)
