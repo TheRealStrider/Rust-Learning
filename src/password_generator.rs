@@ -33,30 +33,20 @@ pub fn _password_generator() {
     let mut password: String = String::new();
 
 
-    while password.len() < password_length{
+    while password.len() < password_length {
         let choose_type: u32 = random!(0, 4);
         let x: char = alphabet_lower[random!(0, 26)];
         let y: char = alphabet_upper[random!(0, 26)];
         let z: char = numbers[random!(0, 10)];
         let s: char = special_characters[random!(0, 7)];
 
-        if include_special == "yes" {
-            match choose_type {
-                0 => password += &x.to_string(),
-                1 => password += &y.to_string(),
-                2 => password += &z.to_string(),
-                3 => password += &s.to_string(),
-                _ => {}
-            }
-        }
-        else {
-            match choose_type {
-                0 => password += &x.to_string(),
-                1 => password += &y.to_string(),
-                2 => password += &z.to_string(),
-                3 => password += &x.to_string(),
-                _ => {}
-            }
+        match choose_type {
+            0 => password += &x.to_string(),
+            1 => password += &y.to_string(),
+            2 => password += &z.to_string(),
+            3 if include_special == "yes" => password += &s.to_string(),
+            3 => password += &x.to_string(),
+            _ => {}
         }
     }
     println!("Your password is {}", password);
