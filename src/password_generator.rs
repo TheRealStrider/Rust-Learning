@@ -19,8 +19,9 @@ pub fn _password_generator() {
     let password_length: usize = password_length.trim().parse::<usize>().unwrap();
 
     // Whether to include special characters
-    print!("Do you want to include special characters? (EX: !@#): ");
+    print!("Do you want to include special characters? (y/n) (EX: !@#): ");
     io::stdout().flush().expect("Nothing");
+
     let mut include_special: String = String::new();
     io::stdin().read_line(&mut include_special).expect("Failed");
     include_special = include_special.trim().to_lowercase().to_string();
@@ -40,13 +41,18 @@ pub fn _password_generator() {
         let z: char = numbers[random!(0, 10)];
         let s: char = special_characters[random!(0, 7)];
 
-        match choose_type {
-            0 => password += &x.to_string(),
-            1 => password += &y.to_string(),
-            2 => password += &z.to_string(),
-            3 if include_special == "yes" => password += &s.to_string(),
-            3 => password += &x.to_string(),
-            _ => {}
+        if choose_type == 0 {
+            password.push(x);
+        } else if choose_type == 1 {
+            password.push(y);
+        } else if choose_type == 2 {
+            password.push(z);
+        } else if choose_type == 3{
+            if include_special == "y" {
+                password.push(s);
+            } else {
+                password.push(x);
+            }
         }
     }
     println!("Your password is {}", password);
