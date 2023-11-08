@@ -1,6 +1,7 @@
 use std::{io, io::Write};
 use yard;
 
+#[allow(dead_code)]
 pub fn calculator(){
     print!("Welcome to the calculator! Start by entering numbers and operators (EX: 5 + 5). \
     To exit, type 'exit': ");

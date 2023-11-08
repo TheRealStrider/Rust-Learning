@@ -1,6 +1,7 @@
 use std::{collections::HashMap, io, io::Write};
 
-pub fn _length_converter() {
+#[allow(dead_code)]
+pub fn length_converter() {
     loop{
         print!("Please enter the number you want to convert (EX: 5): ");
         io::stdout().flush().expect("Nothing"); // Flushes
@@ -77,20 +78,15 @@ pub fn _length_converter() {
         // Tuple of NUMBER, UNIT, CONVERT TO
         let num_unit_convert: (&f64, &String, &String) = (&number, &unit, &convert_to);
 
-        // Metric conversion
-        fn metric(user_input: &(&f64, &String, &String), metric: &HashMap<&str, f64>)
+        // Same system conversion
+        fn same_system(user_input: &(&f64, &String, &String), system: &HashMap<&str, f64>)
                   -> f64{
-            user_input.0 * (metric.get(user_input.1.as_str()).unwrap() /
-                metric.get(user_input.2.as_str()).unwrap())
+            user_input.0 * (system.get(user_input.1.as_str()).unwrap() /
+                system.get(user_input.2.as_str()).unwrap())
         }
 
-        // Imperial conversion
-        fn imperial(user_input: &(&f64, &String, &String), imperial: &HashMap<&str, f64>) -> f64 {
-            user_input.0 * (imperial.get(user_input.1.trim()).unwrap() /
-                imperial.get(user_input.2.trim()).unwrap())
-        }
 
-        // Metric to Imperial or vice versa
+        // Different system conversion
         fn system_to_system (user_input: &(&f64, &String, &String), unit_type: &str,
         metric_system: &HashMap<&str, f64>, imperial_system: &HashMap<&str, f64>) -> f64 {
             let mut number_in:f64 = user_input.0.to_owned();
@@ -112,12 +108,12 @@ pub fn _length_converter() {
 
         // Converting number given to number to convert to | FINAL STEP
         if unit_given_type == "metric" && convert_to_type == "metric" {
-            println!("{} to {} is {:.3}{}", &number_given, &convert_to, metric(&num_unit_convert,
+            println!("{} to {} is {:.3}{}", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &metric_units), &convert_to);
             break;
         }
         else if unit_given_type == "imperial" && convert_to_type == "imperial" {
-            println!("{} to {} is {:.3}{}", &number_given, &convert_to, imperial(&num_unit_convert,
+            println!("{} to {} is {:.3}{}", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &imperial_units), &convert_to);
             break;
         }
