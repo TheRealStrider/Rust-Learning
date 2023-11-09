@@ -8,8 +8,8 @@ macro_rules! random {
     };
 }
 
-
-pub fn _password_generator() {
+#[allow(dead_code)]
+pub fn password_generator() {
     print!("Type in the length you want the password to be (EX: 5): ");
     io::stdout().flush().expect("Nothing");
 

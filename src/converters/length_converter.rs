@@ -2,23 +2,23 @@ use std::{collections::HashMap, io, io::Write};
 
 #[allow(dead_code)]
 pub fn length_converter() {
+    println!("Welcome to the Length Converter!");
     loop{
-        print!("Please enter the number you want to convert (EX: 5): ");
+        
+        print!("\nPlease enter the number you want to convert (EX: 5): ");
         io::stdout().flush().expect("Nothing"); // Flushes
 
-        // Number the user types with it's unit
+        // Number the user types
         let mut number_given: String = String::new();
         io::stdin().read_line(&mut number_given).expect("Error");
         number_given = number_given.trim().to_owned();
 
-        let numbers: String = String::from("0123456789");
-        if !numbers.contains(number_given.chars().next().unwrap()) {
-            println!("Sorry but the number you have entered is not a number. Please try again.");
+        // This section checks if the number given is a number
+        if !String::from("0123456789").contains(number_given.chars().next().unwrap()) {
+            println!("\nSorry but the number you have entered is not a number. Please try again.");
             continue;
         }
 
-        // Alphabet in a String
-        let letters: String = String::from("abcdefghijklmnopqrstuvwxyz");
 
         // Hash map for metric units and imperial units
         let metric_units: HashMap<&str, f64> = HashMap::from([("km", 1000.0), ("m", 1.0),
@@ -28,7 +28,7 @@ pub fn length_converter() {
 
 
         // This section creates the unit variable and makes it store the unit the user gives
-        print!("Enter the unit you want to convert from (EX: mm): ");
+        print!("\nEnter the unit you want to convert from (EX: mm): ");
         io::stdout().flush().expect("Nothing"); // Flushes
 
         let mut unit: String = String::new();
@@ -36,9 +36,8 @@ pub fn length_converter() {
         unit = unit.trim().to_owned();
 
         // This section checks if the unit given is a unit
-        if !letters.contains(unit.chars().next().unwrap()) ||
-            (!metric_units.contains_key(unit.trim()) && !imperial_units.contains_key(unit.trim())) {
-            println!("Sorry but the unit you have entered is not a unit. Please try again.");
+        if !metric_units.contains_key(unit.trim()) && !imperial_units.contains_key(unit.trim()) {
+            println!("\nSorry but the unit you have entered is not a unit. Please try again.");
             continue;
         }
         
@@ -46,7 +45,7 @@ pub fn length_converter() {
         // THIS IS THE USER NUMBER WITHOUT THE UNIT | VERY IMPORTANT
         let number: f64 = number_given.parse::<f64>().unwrap();
 
-        print!("Enter the unit you want to convert to (EX: in): ");
+        print!("\nEnter the unit you want to convert to (EX: in): ");
         io::stdout().flush().expect("Nothing"); // Flushes
 
         // Unit the user wants to convert to
@@ -108,23 +107,23 @@ pub fn length_converter() {
 
         // Converting number given to number to convert to | FINAL STEP
         if unit_given_type == "metric" && convert_to_type == "metric" {
-            println!("{} to {} is {:.3}{}", &number_given, &convert_to, same_system(&num_unit_convert,
+            println!("\n{} to {} is {:.3}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &metric_units), &convert_to);
             break;
         }
         else if unit_given_type == "imperial" && convert_to_type == "imperial" {
-            println!("{} to {} is {:.3}{}", &number_given, &convert_to, same_system(&num_unit_convert,
+            println!("\n{} to {} is {:.3}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &imperial_units), &convert_to);
             break;
         }
         else if unit_given_type != "unknown" && convert_to_type != "unknown" {
-            println!("{}{} to {} is {:.3}{}", &number,&unit, &convert_to,
+            println!("\n{}{} to {} is {:.3}{}\n", &number,&unit, &convert_to,
                      system_to_system(&num_unit_convert, &unit_given_type, &metric_units,
                                         &imperial_units), &convert_to);
             break;
         }
         else {
-            println!("Sorry but the units you have entered do not comply. Please try again.")
+            println!("\nSorry but the units you have entered do not comply. Please try again.")
         }
     }
 }
