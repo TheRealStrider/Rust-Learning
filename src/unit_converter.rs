@@ -1,4 +1,4 @@
-use super::converters::{length_converter::length_converter, temperature_converter::temperature_converter};
+use super::converters::{length_converter::length_converter, temperature_converter::temperature_converter, weight_converter::weight_converter};
 use std::{io, io::Write};
 
 #[allow(dead_code)]
@@ -7,7 +7,7 @@ pub fn unit_converter() {
 
     // This section prints the available converters
     let converters_available = Vec::from(["length_converter", "temperature_converter",
-                    "weight_converter (NOT AVAILABLE)", "volume_converter (NOT AVAILABLE)"]);
+                    "weight_converter", "volume_converter (NOT AVAILABLE)"]);
     for i in 0..converters_available.len() {
         println!("\t{}: {}", i + 1, converters_available[i]);
         if i == converters_available.len() - 1 {
@@ -16,7 +16,7 @@ pub fn unit_converter() {
     }
 
     // This section creates a vector of functions
-    let converter_functions: Vec<fn()> = Vec::from([length_converter, temperature_converter]);
+    let converter_functions: Vec<fn()> = Vec::from([length_converter, temperature_converter, weight_converter]);
 
     println!("Please enter the number of the converter you want to use: ");
 
