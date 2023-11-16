@@ -1,34 +1,36 @@
 use std::{io, io::Write, collections::HashMap};
 
-pub fn weight_converter() {
-    println!("Welcome to the Weight Converter!");
+pub fn volume_converter() {
+    println!("Welcome to the Volume Converter!");
 
     //Hashmap of metric weight units
-    let metric_units: HashMap<&str, f64> = HashMap::from([("kg", 1000.0), ("g", 1.0), ("mg", 0.001)]);
+    let metric_units: HashMap<&str, f64> = HashMap::from([("cbm", 1.0), ("l", 1000.0), ("ml", 1000000.0)]);
     //Hashmap of imperial weight units
-    let imperial_units: HashMap<&str, f64> = HashMap::from([("lbs", 16.0), ("oz", 1.0)]);
+    let imperial_units: HashMap<&str, f64> = HashMap::from([("gal", 1.0), ("qt", 4.0), ("pt", 8.0),
+                                                            ("c", 15.773), ("oz", 128.0)]);
 
     // Same system conversion
     fn same_system(user_input: &(&f64, &String, &String), system: &HashMap<&str, f64>)
                 -> f64{
-        user_input.0 * (system.get(user_input.1.as_str()).unwrap() /
-            system.get(user_input.2.as_str()).unwrap())
+        user_input.0 * (system.get(user_input.2.as_str()).unwrap() /
+            system.get(user_input.1.as_str()).unwrap())
     }
 
     // Different system conversion
         fn system_to_system (user_input: &(&f64, &String, &String), unit_type: &str,
         metric_system: &HashMap<&str, f64>, imperial_system: &HashMap<&str, f64>) -> f64 {
             let mut number_in:f64 = user_input.0.to_owned();
-            let gram_to_imperial: HashMap<&str, f64> = HashMap::from([("lbs", (1.0 / 453.6)), ("oz", (1.0 / 28.35))]);
-            let ounce_to_metric: HashMap<&str, f64> = HashMap::from([("kg", (1.0 / 35.274)),
-                ("g", 28.35), ("mg", 28250.0)]);
+            let cumeter_to_imperial: HashMap<&str, f64> = HashMap::from([("gal", 264.172), ("qt", 1056.69),
+                                                    ("pt", 2113.38), ("c", 4166.67), ("oz", 33814.0)]);
+            let gallon_to_metric: HashMap<&str, f64> = HashMap::from([("cbm", 0.00378541),
+                ("l", 3.78541), ("ml", 3785.41)]);
             if unit_type == "metric" {
                 number_in = number_in * metric_system[user_input.1.as_str()];
-                return number_in * gram_to_imperial.get(user_input.2.as_str()).unwrap();
+                return number_in * cumeter_to_imperial.get(user_input.2.as_str()).unwrap();
             }
             else if unit_type == "imperial" {
                 number_in = number_in * imperial_system[user_input.1.as_str()];
-                return number_in * ounce_to_metric.get(user_input.2.as_str()).unwrap();
+                return number_in * gallon_to_metric.get(user_input.2.as_str()).unwrap();
             }
             
             0.0
@@ -36,7 +38,7 @@ pub fn weight_converter() {
 
 
     loop {
-        print!("\nPlease enter the number you want to convert (EX: 5): ");
+        print!("\nPlease enter the number you want to convert (EX: 73.3): ");
         io::stdout().flush().expect("Nothing"); // Flushes
 
         // Number the user types
@@ -88,7 +90,7 @@ pub fn weight_converter() {
         let filtered_number: f64 = number_given.parse::<f64>().unwrap();
 
         // Unit the user wants to convert from
-        print!("Please enter the unit you want to convert from (EX: kg): ");
+        print!("Please enter the unit you want to convert from (EX: cbm): ");
         io::stdout().flush().expect("Nothing"); // Flushes
         
         let mut unit: String = String::new();
@@ -96,7 +98,7 @@ pub fn weight_converter() {
         unit = unit.trim().to_lowercase().to_owned();
 
         // Unit the user wants to convert to
-        print!("Please enter the unit you want to convert to (EX: lbs): ");
+        print!("Please enter the unit you want to convert to (EX: qt): ");
         io::stdout().flush().expect("Nothing"); // Flushes
 
         let mut convert_to: String = String::new();
@@ -126,17 +128,17 @@ pub fn weight_converter() {
 
         // Converting number given to number to convert to | FINAL STEP
         if unit_given_type == "metric" && convert_to_type == "metric" {
-            println!("\n{} to {} is {:.2}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
+            println!("\n{} to {} is {:.3}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &metric_units), &convert_to);
             break;
         }
         else if unit_given_type == "imperial" && convert_to_type == "imperial" {
-            println!("\n{} to {} is {:.2}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
+            println!("\n{} to {} is {:.3}{}\n", &number_given, &convert_to, same_system(&num_unit_convert,
                                                                     &imperial_units), &convert_to);
             break;
         }
         else if unit_given_type != "unknown" && convert_to_type != "unknown" {
-            println!("\n{}{} to {} is {:.2}{}\n", &filtered_number,&unit, &convert_to,
+            println!("\n{}{} to {} is {:.3}{}\n", &filtered_number,&unit, &convert_to,
                      system_to_system(&num_unit_convert, &unit_given_type, &metric_units,
                                         &imperial_units), &convert_to);
             break;
