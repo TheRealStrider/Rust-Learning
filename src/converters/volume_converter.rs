@@ -4,16 +4,16 @@ pub fn volume_converter() {
     println!("Welcome to the Volume Converter!");
 
     //Hashmap of metric weight units
-    let metric_units: HashMap<&str, f64> = HashMap::from([("cbm", 1.0), ("l", 1000.0), ("ml", 1000000.0)]);
+    let metric_units: HashMap<&str, f64> = HashMap::from([("cbm", 1.0), ("l", 0.001), ("ml", 0.000001)]);
     //Hashmap of imperial weight units
-    let imperial_units: HashMap<&str, f64> = HashMap::from([("gal", 1.0), ("qt", 4.0), ("pt", 8.0),
-                                                            ("c", 15.773), ("oz", 128.0)]);
+    let imperial_units: HashMap<&str, f64> = HashMap::from([("gal", 1.0), ("qt", 0.25), ("pt", 0.125),
+                                                            ("c", 0.0634013), ("oz", (1.0 /128.0))]);
 
     // Same system conversion
     fn same_system(user_input: &(&f64, &String, &String), system: &HashMap<&str, f64>)
                 -> f64{
-        user_input.0 * (system.get(user_input.2.as_str()).unwrap() /
-            system.get(user_input.1.as_str()).unwrap())
+        user_input.0 * (system.get(user_input.1.as_str()).unwrap() /
+            system.get(user_input.2.as_str()).unwrap())
     }
 
     // Different system conversion
